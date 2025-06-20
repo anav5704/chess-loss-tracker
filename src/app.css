@@ -1,1 +1,37 @@
 @import 'tailwindcss';
+
+@layer base {
+	body {
+		@apply bg-zinc-900 text-lg text-white underline-offset-[3px];
+	}
+
+	h1 {
+		@apply text-4xl font-semibold;
+	}
+
+	input {
+		@apply block w-full rounded-lg border-1 border-zinc-600 p-2;
+	}
+}
+
+@layer components {
+	.card {
+		@apply rounded-xl border-1 border-zinc-600 bg-zinc-800 p-5;
+	}
+
+	.auth-form {
+		@apply flex w-[500px] flex-col gap-3;
+	}
+
+	.auth-header {
+		@apply mb-5 text-center;
+	}
+
+	.auth-footer {
+		@apply mt-5 text-center;
+
+		a {
+			@apply underline;
+		}
+	}
+}
