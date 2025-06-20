@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { signUp } from '@/lib/auth/client';
+	import { goto } from '$app/navigation';
 
 	let name = $state('');
 	let email = $state('');
@@ -15,13 +16,14 @@
 			ccUsername,
 			loUsername,
 			password,
-			callbackURL: '/',
 			fetchOptions: {
 				onError(context) {
 					errorMessage = context.error.message;
 				}
 			}
 		});
+
+		goto('/');
 	};
 </script>
 
