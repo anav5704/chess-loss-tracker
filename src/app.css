@@ -10,13 +10,17 @@
 	}
 
 	input {
-		@apply mt-1 block w-full rounded-lg border-1 border-zinc-600 p-2;
+		@apply mt-1 block w-full rounded-lg border-1 border-zinc-700 p-2 focus:ring-2 focus:ring-violet-500 focus:outline-none;
+	}
+
+	input[type='button'] {
+		@apply bg-violet-500;
 	}
 }
 
 @layer components {
 	.card {
-		@apply rounded-xl border-1 border-zinc-600 bg-zinc-800 p-5;
+		@apply rounded-xl bg-zinc-800 p-5;
 	}
 
 	.auth-form {
@@ -31,7 +35,7 @@
 		@apply mt-5 text-center;
 
 		a {
-			@apply underline;
+			@apply text-violet-500 underline;
 		}
 	}
 }

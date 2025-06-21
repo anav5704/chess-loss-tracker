@@ -19,11 +19,12 @@
 			fetchOptions: {
 				onError(context) {
 					errorMessage = context.error.message;
+				},
+				onSuccess() {
+					goto('/', { replaceState: true });
 				}
 			}
 		});
-
-		goto('/', { replaceState: true });
 	};
 </script>
 
