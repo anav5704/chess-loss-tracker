@@ -4,6 +4,6 @@
 
 <main class="relative grid h-screen place-content-center">
 	<img src="/auth-bg.png" alt="" class=" absolute inset-0 -z-20 h-full w-full object-cover" />
-	<div class="absolute inset-0 -z-10 bg-zinc-800/80"></div>
+	<div class="absolute inset-0 -z-10 bg-zinc-900/90"></div>
 	{@render children()}
 </main>
