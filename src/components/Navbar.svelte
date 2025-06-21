@@ -6,7 +6,7 @@
 		signOut({
 			fetchOptions: {
 				onSuccess: () => {
-					goto('/login');
+					goto('/login', { replaceState: true });
 				}
 			}
 		});

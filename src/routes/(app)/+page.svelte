@@ -1,5 +1,1 @@
-<script lang="ts">
-	let { data } = $props();
-</script>
-
-<h1>{data.user?.name}</h1>
+<h1>Home page</h1>

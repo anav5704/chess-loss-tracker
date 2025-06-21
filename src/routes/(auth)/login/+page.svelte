@@ -17,7 +17,7 @@
 			}
 		});
 
-		goto('/');
+		goto('/', { replaceState: true });
 	};
 </script>
 
