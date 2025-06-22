@@ -1,1 +1,42 @@
 @import 'tailwindcss';
+
+@layer base {
+	body {
+		@apply bg-zinc-900 text-lg text-white underline-offset-[3px];
+	}
+
+	h1 {
+		@apply text-4xl font-semibold;
+	}
+
+	input,
+	button {
+		@apply mt-1 block w-full rounded-lg border-1 border-zinc-700 p-2.5 focus:ring-2 focus:ring-violet-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50;
+	}
+}
+
+@layer components {
+	.primary-button {
+		@apply bg-violet-500;
+	}
+
+	.card {
+		@apply rounded-xl bg-zinc-800 p-5;
+	}
+
+	.auth-form {
+		@apply flex w-[500px] flex-col gap-3;
+	}
+
+	.auth-header {
+		@apply mb-5 text-center;
+	}
+
+	.auth-footer {
+		@apply mt-5 text-center;
+
+		a {
+			@apply text-violet-500 underline;
+		}
+	}
+}
