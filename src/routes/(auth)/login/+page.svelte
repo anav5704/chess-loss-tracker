@@ -1,12 +1,16 @@
 <script lang="ts">
+	import Button from '@/components/Button.svelte';
 	import { signIn } from '@/lib/auth/client';
 	import { goto } from '$app/navigation';
 
 	let email = $state('');
 	let password = $state('');
 	let errorMessage = $state('');
+	let isLoading = $state(false);
 
 	const handleSubmit = async () => {
+		isLoading = true;
+
 		await signIn.email({
 			email,
 			password,
@@ -19,6 +23,8 @@
 				}
 			}
 		});
+
+		isLoading = false;
 	};
 </script>
 
@@ -35,7 +41,7 @@
 		<input name="password" type="password" minlength="8" required bind:value={password} />
 	</label>
 
-	<input type="submit" value="Log in" />
+	<Button label="Log in" type="submit" {isLoading} />
 
 	{#if errorMessage}
 		<p class="text-rose-500">{errorMessage}</p>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '@/components/Button.svelte';
 	import { signUp } from '@/lib/auth/client';
 	import { goto } from '$app/navigation';
 
@@ -8,8 +9,11 @@
 	let loUsername = $state('');
 	let password = $state('');
 	let errorMessage = $state('');
+	let isLoading = $state(false);
 
 	const handleSubmit = async () => {
+		isLoading = true;
+
 		await signUp.email({
 			name,
 			email,
@@ -25,6 +29,8 @@
 				}
 			}
 		});
+
+		isLoading = false;
 	};
 </script>
 
@@ -56,7 +62,7 @@
 		<input name="password" type="password" minlength="8" required bind:value={password} />
 	</label>
 
-	<input type="submit" value="Register" />
+	<Button label="Register" type="submit" {isLoading} />
 
 	{#if errorMessage}
 		<p class="text-rose-500">{errorMessage}</p>

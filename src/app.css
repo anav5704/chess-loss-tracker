@@ -9,16 +9,17 @@
 		@apply text-4xl font-semibold;
 	}
 
-	input {
-		@apply mt-1 block w-full rounded-lg border-1 border-zinc-700 p-2 focus:ring-2 focus:ring-violet-500 focus:outline-none;
-	}
-
-	input[type='submit'] {
-		@apply bg-violet-500;
+	input,
+	button {
+		@apply mt-1 block w-full rounded-lg border-1 border-zinc-700 p-2.5 focus:ring-2 focus:ring-violet-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50;
 	}
 }
 
 @layer components {
+	.primary-button {
+		@apply bg-violet-500;
+	}
+
 	.card {
 		@apply rounded-xl bg-zinc-800 p-5;
 	}
