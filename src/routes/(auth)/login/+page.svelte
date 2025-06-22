@@ -6,7 +6,7 @@
 	let password = $state('');
 	let errorMessage = $state('');
 
-	const handleSignUp = async () => {
+	const handleSubmit = async () => {
 		await signIn.email({
 			email,
 			password,
@@ -24,18 +24,18 @@
 
 <h1 class="auth-header">Account Login</h1>
 
-<form class="card auth-form" autocomplete="off">
+<form onsubmit={handleSubmit} autocomplete="off" class="card auth-form">
 	<label>
 		Email
-		<input name="email" type="email" bind:value={email} />
+		<input name="email" type="email" required bind:value={email} />
 	</label>
 
 	<label>
 		Password
-		<input name="password" type="password" bind:value={password} />
+		<input name="password" type="password" minlength="8" required bind:value={password} />
 	</label>
 
-	<input type="button" value="Log in" onclick={handleSignUp} />
+	<input type="submit" value="Log in" />
 
 	{#if errorMessage}
 		<p class="text-rose-500">{errorMessage}</p>
