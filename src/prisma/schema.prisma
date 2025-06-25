@@ -19,6 +19,7 @@ model User {
     loUsername    String?
     sessions      Session[]
     accounts      Account[]
+    games         Game[]
 
     @@unique([email])
     @@map("user")
@@ -67,4 +68,56 @@ model Verification {
     updatedAt  DateTime?
 
     @@map("verification")
+}
+
+model Game {
+    id          String      @id @default(uuid())
+    userId      String
+    user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    pgn         String      @unique
+    site        Site
+    opponent    String
+    date        DateTime
+    timeControl TimeControl
+    opening     String
+    moveCount   Int
+    lossType    LossType
+    gamePhase   GamePhase
+    color       Color
+    notes       String
+    reviewed    Boolean     @default(false)
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+
+    @@map("game")
+}
+
+enum Site {
+    CHESS_COM
+    LICHESS_ORG
+    OTHER
+}
+
+enum TimeControl {
+    BULLET
+    BLITZ
+    RAPID
+    CLASSICAL
+}
+
+enum GamePhase {
+    OPENING
+    MIDDLE_GAME
+    END_GAME
+}
+
+enum LossType {
+    CHECKMATE
+    RESIGNATION
+    TIMEOUT
+}
+
+enum Color {
+    WHITE
+    BLACK
 }
