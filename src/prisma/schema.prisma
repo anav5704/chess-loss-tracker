@@ -81,7 +81,7 @@ model Game {
     timeControl TimeControl
     opening     String
     moveCount   Int
-    lossType    LossType
+    termination Termination
     gamePhase   GamePhase
     color       Color
     notes       String
@@ -111,7 +111,7 @@ enum GamePhase {
     END_GAME
 }
 
-enum LossType {
+enum Termination {
     CHECKMATE
     RESIGNATION
     TIMEOUT

@@ -1,22 +1,13 @@
-import { Color, GamePhase, LossType, PrismaClient, Site, TimeControl } from '@prisma/client';
+import { Color, GamePhase, Termination, PrismaClient, Site, TimeControl } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 async function main() {
-	const userId = 'CsEky0wVKhJReDJ9PvvaEz2WC7WIHlJn';
-
-	const user = await prisma.user.findUnique({
-		where: { id: userId }
-	});
-
+	const user = await prisma.user.findFirst();
 	if (!user) {
-		console.error(
-			'User with ID CsEky0wVKhJReDJ9PvvaEz2WC7WIHlJn not found. Please create the user first.'
-		);
-		return;
+		throw new Error('No user found in database');
 	}
 
-	// Sample PGN data with varied attributes
 	const games = [
 		{
 			pgn: '[Event "Casual Game"] [Site "CHESS_COM"] [Date "2025.06.01"] [White "anav5704"] [Black "ChessMasterX"] [Result "0-1"] [TimeControl "180+2"] [Termination "Resignation"] 1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Nxe4 6. d4 exd4 7. Re1 d5 8. Nxd4 Bd6 9. Nxc6 bxc6 10. Qxd5 O-O 11. Qxe4 Re8 12. Qd3 Bxh2+ 13. Kxh2 Qh4+ 14. Kg1 Qxf2+ 15. Kh1 Re6 0-1',
@@ -26,7 +17,7 @@ async function main() {
 			timeControl: 'BLITZ',
 			opening: 'Ruy Lopez',
 			moveCount: 15,
-			lossType: 'RESIGNATION',
+			termination: 'RESIGNATION',
 			gamePhase: 'MIDDLE_GAME',
 			color: 'WHITE'
 		},
@@ -38,7 +29,7 @@ async function main() {
 			timeControl: 'BULLET',
 			opening: 'Sicilian Defense',
 			moveCount: 16,
-			lossType: 'CHECKMATE',
+			termination: 'CHECKMATE',
 			gamePhase: 'END_GAME',
 			color: 'BLACK'
 		},
@@ -51,7 +42,7 @@ async function main() {
 			timeControl: 'RAPID',
 			opening: "Queen's Gambit Declined",
 			moveCount: 18,
-			lossType: 'TIMEOUT',
+			termination: 'TIMEOUT',
 			gamePhase: 'MIDDLE_GAME',
 			color: 'WHITE'
 		},
@@ -63,7 +54,7 @@ async function main() {
 			timeControl: 'CLASSICAL',
 			opening: 'Ruy Lopez',
 			moveCount: 15,
-			lossType: 'RESIGNATION',
+			termination: 'RESIGNATION',
 			gamePhase: 'OPENING',
 			color: 'BLACK'
 		},
@@ -75,7 +66,7 @@ async function main() {
 			timeControl: 'BULLET',
 			opening: 'Sicilian Defense',
 			moveCount: 18,
-			lossType: 'CHECKMATE',
+			termination: 'CHECKMATE',
 			gamePhase: 'END_GAME',
 			color: 'WHITE'
 		},
@@ -87,7 +78,7 @@ async function main() {
 			timeControl: 'RAPID',
 			opening: "Queen's Gambit Declined",
 			moveCount: 18,
-			lossType: 'TIMEOUT',
+			termination: 'TIMEOUT',
 			gamePhase: 'MIDDLE_GAME',
 			color: 'BLACK'
 		},
@@ -99,7 +90,7 @@ async function main() {
 			timeControl: 'CLASSICAL',
 			opening: 'Ruy Lopez',
 			moveCount: 15,
-			lossType: 'RESIGNATION',
+			termination: 'RESIGNATION',
 			gamePhase: 'OPENING',
 			color: 'WHITE'
 		},
@@ -111,7 +102,7 @@ async function main() {
 			timeControl: 'BULLET',
 			opening: 'Sicilian Defense',
 			moveCount: 18,
-			lossType: 'CHECKMATE',
+			termination: 'CHECKMATE',
 			gamePhase: 'END_GAME',
 			color: 'BLACK'
 		},
@@ -123,7 +114,7 @@ async function main() {
 			timeControl: 'RAPID',
 			opening: "Queen's Gambit Declined",
 			moveCount: 18,
-			lossType: 'TIMEOUT',
+			termination: 'TIMEOUT',
 			gamePhase: 'MIDDLE_GAME',
 			color: 'WHITE'
 		},
@@ -135,7 +126,7 @@ async function main() {
 			timeControl: 'CLASSICAL',
 			opening: 'Ruy Lopez',
 			moveCount: 15,
-			lossType: 'RESIGNATION',
+			termination: 'RESIGNATION',
 			gamePhase: 'OPENING',
 			color: 'BLACK'
 		}
@@ -145,7 +136,7 @@ async function main() {
 	for (const game of games) {
 		await prisma.game.create({
 			data: {
-				userId,
+				userId: user.id,
 				pgn: game.pgn,
 				site: game.site as Site,
 				opponent: game.opponent,
@@ -153,7 +144,7 @@ async function main() {
 				timeControl: game.timeControl as TimeControl,
 				opening: game.opening,
 				moveCount: game.moveCount,
-				lossType: game.lossType as LossType,
+				termination: game.termination as Termination,
 				gamePhase: game.gamePhase as GamePhase,
 				color: game.color as Color,
 				reviewed: false,

@@ -3,43 +3,37 @@
 	import { signOut } from '@/lib/auth/client';
 	import { goto } from '$app/navigation';
 	import NavLink from './NavLink.svelte';
-	import { page } from '$app/state';
 
-	const primaryLinks = [
+	const primaryLinks = $derived([
 		{
 			label: 'Games',
-			href: 'games',
-			icon: Swords,
-			active: page.url.pathname == '/games'
+			href: '/games',
+			icon: Swords
 		},
 		{
 			label: 'Analysis',
-			href: 'analysis',
-			icon: Cpu,
-			active: page.url.pathname.includes('/analysis')
+			href: '/analysis',
+			icon: Cpu
 		},
 		{
 			label: 'Insights',
-			href: 'insights',
-			icon: ChartArea,
-			active: page.url.pathname == '/dashboard'
+			href: '/insights',
+			icon: ChartArea
 		}
-	];
+	]);
 
-	const secondaryLinks = [
+	const secondaryLinks = $derived([
 		{
 			label: 'Settings',
-			href: 'settings',
-			icon: Settings,
-			active: page.url.pathname == '/settings'
+			href: '/settings',
+			icon: Settings
 		},
 		{
 			label: 'Log out',
 			href: 'logout',
-			icon: LogOut,
-			active: page.url.pathname == '/logout'
+			icon: LogOut
 		}
-	];
+	]);
 
 	const handleLogout = () => {
 		signOut({

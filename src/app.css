@@ -6,12 +6,35 @@
 	}
 
 	h1 {
-		@apply text-4xl font-semibold;
+		@apply mb-5 text-4xl font-semibold;
+	}
+
+	nav {
+		a {
+			@apply flex gap-2 transition hover:text-white!;
+		}
 	}
 
 	input,
 	button {
 		@apply mt-1 block w-full rounded-lg border-1 border-zinc-700 p-2.5 focus:ring-2 focus:ring-violet-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50;
+	}
+
+	table {
+		@apply divide-y-1 divide-zinc-700;
+
+		th {
+			@apply text-left text-base font-semibold uppercase;
+		}
+
+		th,
+		td {
+			@apply p-5;
+		}
+
+		tbody {
+			@apply divide-y-1 divide-zinc-700;
+		}
 	}
 }
 
@@ -29,7 +52,7 @@
 	}
 
 	.auth-header {
-		@apply mb-5 text-center;
+		@apply text-center;
 	}
 
 	.auth-footer {
