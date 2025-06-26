@@ -6,7 +6,7 @@
 
 <section class="flex h-screen gap-2 bg-zinc-950 p-2">
 	<Navbar />
-	<main class="grow overflow-scroll rounded-xl bg-zinc-900">
+	<main class="grow overflow-scroll rounded-xl bg-zinc-900 p-5">
 		{@render children()}
 	</main>
 </section>

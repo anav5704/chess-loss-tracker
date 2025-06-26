@@ -6,6 +6,18 @@
 	let { data } = $props();
 </script>
 
+<header class=" bg-zinc-900">
+	<h1>Games You Lost</h1>
+
+	<div class="grid grid-cols-6 gap-5">
+		<input class="col-span-4" type="search" placeholder="Search Opponent..." name="" id="" />
+
+		<button class="col-span-1">Filters</button>
+
+		<button class="primary-button con-span-1">Add Loss</button>
+	</div>
+</header>
+
 {#await data.stream}
 	<p>Loading...</p>
 {:then stream}
