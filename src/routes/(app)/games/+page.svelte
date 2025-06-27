@@ -2,6 +2,7 @@
 	import GamePhase from '@/components/GamePhase.svelte';
 	import Termination from '@/components/Termination.svelte';
 	import TimeControl from '@/components/TimeControl.svelte';
+	import { modalStore } from '@/stores/modal.svelte.js';
 
 	let { data } = $props();
 </script>
@@ -14,7 +15,9 @@
 
 		<button class="col-span-1">Filters</button>
 
-		<button class="primary-button con-span-1">Add Loss</button>
+		<button onclick={() => (modalStore.createModal = true)} class="primary-button con-span-1">
+			Add Loss
+		</button>
 	</div>
 </header>
 

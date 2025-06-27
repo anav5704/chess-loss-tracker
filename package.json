@@ -46,6 +46,9 @@
     "dependencies": {
         "@lucide/svelte": "^0.522.0",
         "@prisma/client": "^6.10.1",
-        "better-auth": "^1.2.9"
+        "better-auth": "^1.2.9",
+        "chess.js": "^1.4.0",
+        "sqlite": "^5.1.1",
+        "sqlite3": "^5.1.7"
     }
 }
