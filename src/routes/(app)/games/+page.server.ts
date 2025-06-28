@@ -7,6 +7,9 @@ export const load = async ({ locals }) => {
 		const games = await db.game.findMany({
 			where: {
 				userId: locals.user?.id
+			},
+			orderBy: {
+				createdAt: 'desc'
 			}
 		});
 
@@ -34,18 +37,12 @@ export const actions: Actions = {
 		await db.game.create({
 			data: {
 				userId: user.id,
-				site: parsedPgn.site,
-				opponent: parsedPgn.opponent,
-				date: parsedPgn.date,
-				timeControl: parsedPgn.timeControl,
-				opening: parsedPgn.opening,
-				moveCount: parsedPgn.moveCount,
-				termination: parsedPgn.termination,
-				gamePhase: parsedPgn.gamePhase,
-				color: parsedPgn.color,
 				pgn,
-				notes
+				notes,
+				...parsedPgn
 			}
 		});
+
+		redirect(303, '/games');
 	}
 };

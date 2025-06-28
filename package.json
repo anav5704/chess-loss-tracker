@@ -15,8 +15,7 @@
         "lint": "prettier --check . && eslint ."
     },
     "prisma": {
-        "schema": "src/prisma/schema.prisma",
-        "seed": "tsx src/prisma/seed.ts"
+        "schema": "src/prisma/schema.prisma"
     },
     "devDependencies": {
         "@eslint/compat": "^1.2.5",

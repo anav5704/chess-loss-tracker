@@ -76,6 +76,7 @@ model Game {
     user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
     pgn         String      @unique
     site        Site
+    url         String
     opponent    String
     date        DateTime
     timeControl TimeControl
