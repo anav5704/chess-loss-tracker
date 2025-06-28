@@ -71,13 +71,47 @@ const getDate = (date: string): Date => {
 	return new Date(date);
 };
 
-const getOpening = async (db: Database, eco: string, moves: string): Promise<string> => {
-	const result = await db.get(
-		"SELECT name FROM openings WHERE eco = ? AND ? LIKE pgn || '%' ORDER BY LENGTH(pgn) DESC",
-		eco,
-		moves
+const normalizeFen = (fen: string) => fen.split(' ')[0];
+
+const getOpening = async (db: Database, pgn: string): Promise<string> => {
+	const game = new Chess();
+	game.loadPgn(pgn);
+
+	const gameHistory = game.history();
+	const gameFens: { fen: string; moveIndex: number }[] = [];
+	const tempGame = new Chess();
+
+	for (let i = 0; i < Math.min(gameHistory.length, 12); i++) {
+		tempGame.move(gameHistory[i]);
+		const fen = normalizeFen(tempGame.fen());
+		console.log('game fen for move', i, fen);
+		gameFens.push({ fen, moveIndex: i + 1 });
+	}
+
+	const allOpenings: { name: string; pgn: string; fen: string }[] = await db.all(
+		'SELECT name, pgn, fen FROM openings WHERE eco = ?',
+		game.getHeaders().ECO
 	);
-	return result?.name || 'Unknown';
+
+	let bestMatchName: string = 'Unknown Opening';
+	let longestMatchMoves: number = 0;
+
+	for (const openingCandidate of allOpenings) {
+		const candidateFenNormalized = normalizeFen(openingCandidate.fen);
+
+		const matchInGame = gameFens.find(
+			(gameFenRecord) => gameFenRecord.fen === candidateFenNormalized
+		);
+
+		if (matchInGame) {
+			if (matchInGame.moveIndex > longestMatchMoves) {
+				longestMatchMoves = matchInGame.moveIndex;
+				bestMatchName = openingCandidate.name;
+			}
+		}
+	}
+
+	return bestMatchName;
 };
 
 export const parsePgn = async ({ user, pgn }: { user: User; pgn: string }) => {
@@ -87,7 +121,6 @@ export const parsePgn = async ({ user, pgn }: { user: User; pgn: string }) => {
 	const db = await open({ filename: 'openings.db', driver: sqlite3.Database });
 	const headers = game.getHeaders();
 	const history = game.history();
-	const moves = formatMoves(history);
 
 	const parsedPgn: ParsedPgn = {
 		site: getSite(headers.Site),
@@ -95,7 +128,7 @@ export const parsePgn = async ({ user, pgn }: { user: User; pgn: string }) => {
 		opponent: getOpponent(getColor(user, headers.White), headers),
 		date: getDate(headers.Date),
 		timeControl: getTimeControl(headers.TimeControl),
-		opening: await getOpening(db, headers.ECO, moves),
+		opening: await getOpening(db, pgn),
 		moveCount: getMoveCount(history),
 		termination: getTermination(pgn),
 		gamePhase: getGamePhase(getMoveCount(history)),
