@@ -8,7 +8,7 @@
         "build": "vite build",
         "preview": "vite preview",
         "prepare": "svelte-kit sync || echo ''",
-        "generate": "npx prisma generate --schema=src/prisma/postgres/schema.prisma --no-engine && npx prisma generate --schema=src/prisma/sqlite/schema.prisma --no-engine",
+        "generate": "npx prisma generate --schema=src/prisma/postgres/schema.prisma && npx prisma generate --schema=src/prisma/sqlite/schema.prisma",
         "postinstall": "npx prisma generate --schema=src/prisma/postgres/schema.prisma --no-engine && npx prisma generate --schema=src/prisma/sqlite/schema.prisma --no-engine",
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",

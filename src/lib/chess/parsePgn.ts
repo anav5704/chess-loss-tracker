@@ -1,4 +1,4 @@
-import { Color, GamePhase, Site, Termination, TimeControl, type User } from '@prisma/client/postgres';
+import { Color, GamePhase, Site, Termination, TimeControl, type User } from '@prisma/postgres';
 import { Chess } from 'chess.js';
 import { db } from '@/prisma';
 
@@ -83,13 +83,14 @@ const getOpening = async (pgn: string): Promise<string> => {
 	for (let i = 0; i < Math.min(gameHistory.length, 12); i++) {
 		tempGame.move(gameHistory[i]);
 		const fen = normalizeFen(tempGame.fen());
-		console.log('game fen for move', i, fen);
 		gameFens.push({ fen, moveIndex: i + 1 });
 	}
 
 	const candidates = await db.sqlite.opening.findMany({
 		where: {
-			eco: game.getHeaders().ECO
+			eco: {
+				startsWith: game.getHeaders().ECO.slice(0, 2)
+			}
 		}
 	});
 
