@@ -1,7 +1,6 @@
-import { Color, GamePhase, Site, Termination, TimeControl, type User } from '@prisma/client';
-import { open, Database } from 'sqlite';
+import { Color, GamePhase, Site, Termination, TimeControl, type User } from '@prisma/client/postgres';
 import { Chess } from 'chess.js';
-import sqlite3 from 'sqlite3';
+import { db } from '@/prisma';
 
 interface ParsedPgn {
 	site: Site;
@@ -73,7 +72,7 @@ const getDate = (date: string): Date => {
 
 const normalizeFen = (fen: string) => fen.split(' ')[0];
 
-const getOpening = async (db: Database, pgn: string): Promise<string> => {
+const getOpening = async (pgn: string): Promise<string> => {
 	const game = new Chess();
 	game.loadPgn(pgn);
 
@@ -88,37 +87,33 @@ const getOpening = async (db: Database, pgn: string): Promise<string> => {
 		gameFens.push({ fen, moveIndex: i + 1 });
 	}
 
-	const allOpenings: { name: string; pgn: string; fen: string }[] = await db.all(
-		'SELECT name, pgn, fen FROM openings WHERE eco = ?',
-		game.getHeaders().ECO
-	);
+	const candidates = await db.sqlite.opening.findMany({
+		where: {
+			eco: game.getHeaders().ECO
+		}
+	});
 
-	let bestMatchName: string = 'Unknown Opening';
+	let opening: string = 'Unknown Opening';
 	let longestMatchMoves: number = 0;
 
-	for (const openingCandidate of allOpenings) {
-		const candidateFenNormalized = normalizeFen(openingCandidate.fen);
+	for (const candidate of candidates) {
+		const match = gameFens.find((gameFenRecord) => gameFenRecord.fen === normalizeFen(candidate.fen));
 
-		const matchInGame = gameFens.find(
-			(gameFenRecord) => gameFenRecord.fen === candidateFenNormalized
-		);
-
-		if (matchInGame) {
-			if (matchInGame.moveIndex > longestMatchMoves) {
-				longestMatchMoves = matchInGame.moveIndex;
-				bestMatchName = openingCandidate.name;
+		if (match) {
+			if (match.moveIndex > longestMatchMoves) {
+				longestMatchMoves = match.moveIndex;
+				opening = candidate.name;
 			}
 		}
 	}
 
-	return bestMatchName;
+	return opening;
 };
 
 export const parsePgn = async ({ user, pgn }: { user: User; pgn: string }) => {
 	const game = new Chess();
 	game.loadPgn(pgn);
 
-	const db = await open({ filename: 'openings.db', driver: sqlite3.Database });
 	const headers = game.getHeaders();
 	const history = game.history();
 
@@ -128,7 +123,7 @@ export const parsePgn = async ({ user, pgn }: { user: User; pgn: string }) => {
 		opponent: getOpponent(getColor(user, headers.White), headers),
 		date: getDate(headers.Date),
 		timeControl: getTimeControl(headers.TimeControl),
-		opening: await getOpening(db, pgn),
+		opening: await getOpening(pgn),
 		moveCount: getMoveCount(history),
 		termination: getTermination(pgn),
 		gamePhase: getGamePhase(getMoveCount(history)),

@@ -4,7 +4,7 @@ import { db } from '@/prisma';
 
 export const load = async ({ locals }) => {
 	const stream = async () => {
-		const games = await db.game.findMany({
+		const games = await db.postgres.game.findMany({
 			where: {
 				userId: locals.user?.id
 			},
@@ -34,7 +34,7 @@ export const actions: Actions = {
 
 		const { parsedPgn } = await parsePgn({ user, pgn });
 
-		await db.game.create({
+		await db.postgres.game.create({
 			data: {
 				userId: user.id,
 				pgn,

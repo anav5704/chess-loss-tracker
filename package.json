@@ -8,14 +8,15 @@
         "build": "vite build",
         "preview": "vite preview",
         "prepare": "svelte-kit sync || echo ''",
-        "postinstall": "npx prisma generate",
+        "generate": "npx prisma generate --schema=src/prisma/postgres/schema.prisma --no-engine && npx prisma generate --schema=src/prisma/sqlite/schema.prisma --no-engine",
+        "postinstall": "npx prisma generate --schema=src/prisma/postgres/schema.prisma --no-engine && npx prisma generate --schema=src/prisma/sqlite/schema.prisma --no-engine",
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
         "format": "prettier --write .",
         "lint": "prettier --check . && eslint ."
     },
     "prisma": {
-        "schema": "src/prisma/schema.prisma"
+        "schema": "src/prisma/postgres/schema.prisma"
     },
     "devDependencies": {
         "@eslint/compat": "^1.2.5",
@@ -36,7 +37,6 @@
         "svelte": "^5.0.0",
         "svelte-check": "^4.0.0",
         "tailwindcss": "^4.0.0",
-        "ts-node": "^10.9.2",
         "tsx": "^4.20.3",
         "typescript": "^5.8.3",
         "typescript-eslint": "^8.20.0",
@@ -46,8 +46,6 @@
         "@lucide/svelte": "^0.522.0",
         "@prisma/client": "^6.10.1",
         "better-auth": "^1.2.9",
-        "chess.js": "^1.4.0",
-        "sqlite": "^5.1.1",
-        "sqlite3": "^5.1.7"
+        "chess.js": "^1.4.0"
     }
 }
