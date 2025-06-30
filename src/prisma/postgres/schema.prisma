@@ -1,10 +1,11 @@
 generator client {
     provider = "prisma-client-js"
+    output   = "../../../node_modules/@prisma/postgres"
 }
 
 datasource db {
     provider = "postgresql"
-    url      = env("DATABASE_URL")
+    url      = env("POSTGRES_DATABASE_URL")
 }
 
 model User {
@@ -76,6 +77,7 @@ model Game {
     user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
     pgn         String      @unique
     site        Site
+    url         String
     opponent    String
     date        DateTime
     timeControl TimeControl

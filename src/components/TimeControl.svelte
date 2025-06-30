@@ -29,7 +29,9 @@
 
 <span {title} class="flex items-center gap-5">
 	<Icon size={24} />
-	{opening}
+	<span class="truncate">
+		{opening}
+	</span>
 	{#if !reviewed}
 		<div class="h-3 w-3 rounded-full bg-violet-500"></div>
 	{/if}

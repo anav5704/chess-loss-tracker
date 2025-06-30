@@ -1,4 +1,4 @@
-import type { User } from 'better-auth';
+import type { User } from '@prisma/client';
 
 declare global {
 	namespace App {

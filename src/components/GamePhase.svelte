@@ -3,7 +3,7 @@
 
 	import { GamePhase } from '@/types';
 
-	let label = $state();
+	let label = $state<string>();
 
 	switch (gamePhase) {
 		case GamePhase.OPENING:
