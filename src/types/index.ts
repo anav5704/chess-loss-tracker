@@ -1,3 +1,9 @@
+export type Game = {
+	id: string;
+	pgn: string;
+	notes: string;
+};
+
 export enum Site {
 	CHESS_COM = 'CHESS_COM',
 	LICHESS_ORG = 'LICHESS_ORG',

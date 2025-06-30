@@ -3,5 +3,16 @@ export const modalStore = $state({
 	updateModal: false,
 	deleteModal: false,
 	filterModal: false,
-	gameData: null
+	gameData: {
+		id: '',
+		pgn: '',
+		notes: ''
+	},
+	clearData: () => {
+		modalStore.gameData = {
+			id: '',
+			pgn: '',
+			notes: ''
+		};
+	}
 });
