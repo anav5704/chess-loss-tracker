@@ -21,22 +21,16 @@
 >
 	<label>
 		PGN
-		<textarea name="pgn" rows="4"></textarea>
+		<textarea name="pgn" rows="4" required></textarea>
 	</label>
 
 	<label>
 		Notes
-		<textarea name="notes" rows="4"></textarea>
+		<textarea name="notes" rows="4" required></textarea>
 	</label>
 
 	<div class="grid grid-cols-2 gap-5">
-		<button
-			onclick={() => (modalStore.createModal = false)}
-			disabled={isLoading}
-			class="col-span-1"
-		>
-			Cancel
-		</button>
+		<button onclick={() => (modalStore.createModal = false)} disabled={isLoading} class="col-span-1"> Cancel </button>
 		<Button {isLoading} type="submit" label="Confirm" />
 	</div>
 </form>
