@@ -9,7 +9,7 @@ const config = {
             "@/*": "./src/*"
         },
         adapter: adapter({
-            runtime: 'nodejs18.x'
+            runtime: 'nodejs22.x'
         })
     }
 };
