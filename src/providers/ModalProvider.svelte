@@ -1,6 +1,7 @@
 <script lang="ts">
 	import CreateGame from '@/components/CreateGame.svelte';
 	import UpdateGame from '@/components/UpdateGame.svelte';
+	import DeleteGame from '@/components/DeleteGame.svelte';
 	import { modalStore } from '@/stores/modal.svelte';
 	import Modal from '@/components/Modal.svelte';
 </script>
@@ -11,4 +12,8 @@
 
 <Modal header="Edit Loss" open={modalStore.updateModal}>
 	<UpdateGame />
+</Modal>
+
+<Modal header="Delete Loss" open={modalStore.deleteModal}>
+	<DeleteGame />
 </Modal>

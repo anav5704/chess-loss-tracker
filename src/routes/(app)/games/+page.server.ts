@@ -73,5 +73,25 @@ export const actions: Actions = {
 		});
 
 		redirect(303, '/games');
+	},
+
+	deleteGame: async ({ request, locals }) => {
+		const { user } = locals;
+
+		if (!user) {
+			redirect(303, '/login');
+		}
+
+		const data = await request.formData();
+
+		const id = data.get('id') as string;
+
+		await db.postgres.game.delete({
+			where: {
+				id
+			}
+		});
+
+		redirect(303, '/games');
 	}
 };
