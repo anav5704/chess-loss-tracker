@@ -1,7 +1,21 @@
 export type Game = {
 	id: string;
+	userId: string;
 	pgn: string;
+	site: string;
+	url: string;
+	opponent: string;
+	date: Date;
+	timeControl: string;
+	opening: string;
+	moveCount: number;
+	termination: string;
+	gamePhase: string;
+	color: string;
 	notes: string;
+	reviewed: boolean;
+	createdAt: string;
+	updatedAt: string;
 };
 
 export enum Site {
