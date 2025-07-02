@@ -30,7 +30,9 @@
 	}
 
 	table {
-		@apply divide-y-1 divide-zinc-700;
+		tr {
+			@apply border-t-1 border-zinc-700;
+		}
 
 		th {
 			@apply text-left text-base font-semibold uppercase;
@@ -39,10 +41,6 @@
 		th,
 		td {
 			@apply p-5;
-		}
-
-		tbody {
-			@apply divide-y-1 divide-zinc-700;
 		}
 	}
 
