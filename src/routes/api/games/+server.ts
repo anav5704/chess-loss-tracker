@@ -10,17 +10,27 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 	}
 
 	const cursor = url.searchParams.get('cursor') as string;
+	const search = url.searchParams.get('search') as string;
 
 	const games = await db.postgres.game.findMany({
 		where: {
-			userId: user.id
+			userId: user.id,
+			...(search && {
+				OR: [
+					{ opening: { contains: search, mode: 'insensitive' } },
+					{ opponent: { contains: search, mode: 'insensitive' } },
+					{ notes: { contains: search, mode: 'insensitive' } }
+				]
+			})
 		},
 		orderBy: {
 			date: 'desc'
 		},
 		take: PAGINATION_LIMIT + 1,
-		cursor: cursor ? { id: cursor } : undefined,
-		skip: cursor ? 1 : 0
+		...(cursor && {
+			cursor: { id: cursor },
+			skip: 1
+		})
 	});
 
 	const hasMore = games.length > PAGINATION_LIMIT;
