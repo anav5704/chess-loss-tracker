@@ -3,30 +3,34 @@
 	import TimeControl from '@/components/TimeControl.svelte';
 	import Termination from '@/components/Termination.svelte';
 	import GamePhase from '@/components/GamePhase.svelte';
+	import { gamesStore } from '@/stores/games.svelte';
 	import { formatDistanceToNow } from 'date-fns';
-	import type { Game } from '@/types';
 
-	let games = $state<Game[]>([]);
 	let isLoading = $state(false);
-	let hasMore = $state(true);
-	let cursor = $state('');
 
 	const getRelativeDate = (date: Date) => {
 		return formatDistanceToNow(new Date(date), { addSuffix: true }).replace('about', '');
 	};
 
 	const loadGames = async () => {
-		if (isLoading || !hasMore) return;
+		if (isLoading || !gamesStore.hasMore) return;
 
 		isLoading = true;
 
 		try {
-			const response = await fetch(`/api/games?cursor=${cursor}`);
+			const endpoint = new URL('/api/games', window.location.origin);
+			endpoint.searchParams.set('search', gamesStore.search);
+			endpoint.searchParams.set('cursor', gamesStore.cursor);
+
+			const response = await fetch(endpoint);
 			const data = await response.json();
 
-			games = [...games, ...data.games];
-			cursor = data.nextCursor;
-			hasMore = !!data.nextCursor;
+			// Data loads too fast causes flashing
+			setTimeout(() => {
+				gamesStore.games = [...gamesStore.games, ...data.games];
+				gamesStore.cursor = data.nextCursor;
+				gamesStore.hasMore = !!data.nextCursor;
+			}, 1000);
 		} catch (error) {
 			console.log(error);
 		} finally {
@@ -37,7 +41,7 @@
 
 <table class="w-full">
 	<thead>
-		<tr class="grid grid-cols-8">
+		<tr class="grid grid-cols-8 border-none">
 			<th class="col-span-4">Opening</th>
 			<th class="col-span-1">Phase</th>
 			<th class="col-span-1">Termination</th>
@@ -46,7 +50,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each games as { termination, opening, reviewed, timeControl, gamePhase, moveCount, date }}
+		{#each gamesStore.games as { termination, opening, reviewed, timeControl, gamePhase, moveCount, date }}
 			<tr class="grid grid-cols-8">
 				<td class="col-span-4"><TimeControl {timeControl} {opening} {reviewed} /></td>
 				<td class="col-span-1"><GamePhase {gamePhase} /></td>
@@ -56,7 +60,7 @@
 			</tr>
 		{/each}
 	</tbody>
-	{#if hasMore}
+	{#if gamesStore.hasMore}
 		<SkeletonGameRows onIntersect={loadGames} {isLoading} />
 	{/if}
 </table>
