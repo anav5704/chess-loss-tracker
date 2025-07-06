@@ -1,0 +1,20 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "../../../node_modules/@prisma/sqlite"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = env("SQLITE_DATABASE_URL")
+}
+
+model Opening {
+    id   Int    @id @default(autoincrement())
+    eco  String
+    name String
+    pgn  String
+    fen  String
+
+    @@index([eco])
+    @@map("opening")
+}

@@ -8,17 +8,25 @@ const setSession: Handle = async ({ event, resolve }) => {
 };
 
 export const authGuard: Handle = async ({ event, resolve }) => {
-	const { url, request } = event;
+	const { url, locals, request } = event;
+	const protectedRoutes = ['/games', '/analysis', '/insights'];
+	const authRoutes = ['/login', '/signup'];
+
+	if (url.pathname === '/') {
+		return redirect(303, '/games');
+	}
 
 	const session = await auth.api.getSession({
 		headers: request.headers
 	});
 
-	if (session?.user && ['/login', '/signup'].includes(url.pathname)) {
-		return redirect(303, '/');
+	locals.user = session?.user ?? null;
+
+	if (session?.user && authRoutes.some((route) => url.pathname.startsWith(route))) {
+		return redirect(303, '/games');
 	}
 
-	if (!session?.user && ['/'].includes(url.pathname)) {
+	if (!session?.user && protectedRoutes.some((route) => url.pathname.startsWith(route))) {
 		return redirect(303, '/login');
 	}
 

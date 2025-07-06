@@ -1,5 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient as PostgresClient } from '@prisma/postgres';
+import { PrismaClient as SqliteClient } from '@prisma/sqlite';
 
-const db = new PrismaClient();
-
-export { db };
+export const db = {
+	postgres: new PostgresClient(),
+	sqlite: new SqliteClient()
+};
