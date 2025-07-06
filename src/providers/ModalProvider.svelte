@@ -1,4 +1,5 @@
 <script lang="ts">
+	import FilterGames from '@/components/FilterGames.svelte';
 	import CreateGame from '@/components/CreateGame.svelte';
 	import UpdateGame from '@/components/UpdateGame.svelte';
 	import DeleteGame from '@/components/DeleteGame.svelte';
@@ -16,4 +17,8 @@
 
 <Modal header="Delete Loss" open={modalStore.deleteModal}>
 	<DeleteGame />
+</Modal>
+
+<Modal header="Filter Games" open={modalStore.filterModal}>
+	<FilterGames />
 </Modal>

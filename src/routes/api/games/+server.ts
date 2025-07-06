@@ -1,3 +1,4 @@
+import { Termination, TimeControl, GamePhase, Color, Site } from '@prisma/postgres';
 import { redirect, type RequestHandler, json } from '@sveltejs/kit';
 import { PAGINATION_LIMIT } from '@/constants';
 import { db } from '@/prisma';
@@ -11,6 +12,10 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 
 	const cursor = url.searchParams.get('cursor') as string;
 	const search = url.searchParams.get('search') as string;
+	const opening = url.searchParams.get('opening') as string;
+	const termination = url.searchParams.get('termination') as Termination;
+	const timeControl = url.searchParams.get('timeControl') as TimeControl;
+	const gamePhase = url.searchParams.get('gamePhase') as GamePhase;
 
 	const games = await db.postgres.game.findMany({
 		where: {
@@ -21,7 +26,11 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 					{ opponent: { contains: search, mode: 'insensitive' } },
 					{ notes: { contains: search, mode: 'insensitive' } }
 				]
-			})
+			}),
+			...(opening && { opening: { contains: opening } }),
+			...(termination && { termination }),
+			...(timeControl && { timeControl }),
+			...(gamePhase && { gamePhase })
 		},
 		orderBy: {
 			date: 'desc'
