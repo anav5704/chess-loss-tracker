@@ -21,6 +21,10 @@
 			const endpoint = new URL('/api/games', window.location.origin);
 			endpoint.searchParams.set('search', gamesStore.search);
 			endpoint.searchParams.set('cursor', gamesStore.cursor);
+			endpoint.searchParams.set('opening', gamesStore.opening);
+			endpoint.searchParams.set('termination', gamesStore.termination);
+			endpoint.searchParams.set('timeControl', gamesStore.timeControl);
+			endpoint.searchParams.set('gamePhase', gamesStore.gamePhase);
 
 			const response = await fetch(endpoint);
 			const data = await response.json();

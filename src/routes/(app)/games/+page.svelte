@@ -9,7 +9,7 @@
 
 	<div class="grid grid-cols-6 gap-5">
 		<Search />
-		<button class="col-span-1">Filters</button>
+		<button onclick={() => (modalStore.filterModal = true)} class="col-span-1">Filters</button>
 		<button onclick={() => (modalStore.createModal = true)} class="primary-button col-span-1"> Add Loss </button>
 	</div>
 </header>

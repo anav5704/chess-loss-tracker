@@ -3,7 +3,7 @@
 </script>
 
 <input
-	onkeydown={(e) => e.key === 'Enter' && gamesStore.reset()}
+	onkeydown={(e) => e.key === 'Enter' && gamesStore.clearGames()}
 	placeholder="Search notes, opening or opponent..."
 	bind:value={gamesStore.search}
 	class="col-span-4"
