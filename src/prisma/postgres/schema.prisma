@@ -87,11 +87,23 @@ model Game {
     gamePhase   GamePhase
     color       Color
     notes       String
+    analysis    Analysis?
     reviewed    Boolean     @default(false)
     createdAt   DateTime    @default(now())
     updatedAt   DateTime    @updatedAt
 
     @@map("game")
+}
+
+model Analysis {
+    id        String   @id @default(uuid())
+    gameId    String   @unique
+    game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+    accuracy  Float
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("analysis")
 }
 
 enum Site {
