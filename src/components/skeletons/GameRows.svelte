@@ -25,19 +25,19 @@
 	{#each [1, 2, 3] as _}
 		<tr class="grid grid-cols-8">
 			<td class="col-span-4 animate-pulse py-6">
-				<div class="h-5 w-5/6 rounded-full bg-zinc-700"></div>
+				<div class="h-5 w-5/6 rounded-full bg-zinc-800"></div>
 			</td>
 			<td class="col-span-1 animate-pulse py-6">
-				<div class="h-5 w-2/3 rounded-full bg-zinc-700"></div>
+				<div class="h-5 w-2/3 rounded-full bg-zinc-800"></div>
 			</td>
 			<td class="col-span-1 animate-pulse py-6">
-				<div class="h-5 w-2/3 rounded-full bg-zinc-700"></div>
+				<div class="h-5 w-2/3 rounded-full bg-zinc-800"></div>
 			</td>
 			<td class="col-span-1 animate-pulse py-6">
-				<div class="h-5 w-2/3 rounded-full bg-zinc-700"></div>
+				<div class="h-5 w-2/3 rounded-full bg-zinc-800"></div>
 			</td>
 			<td class="col-span-1 animate-pulse py-6">
-				<div class="h-5 w-2/3 rounded-full bg-zinc-700"></div>
+				<div class="h-5 w-2/3 rounded-full bg-zinc-800"></div>
 			</td>
 		</tr>
 	{/each}

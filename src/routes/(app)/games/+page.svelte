@@ -5,7 +5,7 @@
 </script>
 
 <header class="bg-zinc-900">
-	<h1>Games You Lost</h1>
+	<h1>Games</h1>
 
 	<div class="grid grid-cols-6 gap-5">
 		<Search />
