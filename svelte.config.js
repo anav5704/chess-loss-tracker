@@ -10,8 +10,8 @@ const config = {
         },
         adapter: adapter({
             runtime: 'nodejs22.x'
-        })
-    }
+        }),
+    },
 };
 
 export default config;

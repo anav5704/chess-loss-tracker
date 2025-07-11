@@ -1,7 +1,9 @@
 <script lang="ts">
 	let { data } = $props();
 
+	import SkeletonAreaCharts from '@/components/skeletons/AreaCharts.svelte';
 	import SkeletonMetrics from '@/components/skeletons/Metrics.svelte';
+	import AreaChart from '@/components/AreaChart.svelte';
 	import Metrics from '@/components/Metrics.svelte';
 </script>
 
@@ -19,3 +21,10 @@
 		<Metrics title="Average Accuracy" value={metrics.averageAccuracy} />
 	{/await}
 </section>
+
+{#await data.overtime}
+	<SkeletonAreaCharts />
+{:then overtime}
+	<AreaChart title="Daily Average Accuracy" unit="% Accuracy" data={overtime.accuracyData} />
+	<AreaChart title="Daily Games Lost" unit="Losses" data={overtime.lossData} />
+{/await}
